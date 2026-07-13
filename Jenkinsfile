@@ -93,6 +93,28 @@ pipeline {
 	    }
 	}
 
+	stage('Health Check') {
+
+	    steps {
+
+		echo "Check enterprise service health"
+
+
+		sh '''
+
+		cd /var/jenkins_home/devops/test-env/enterprise-service-1.0.0
+
+
+		chmod +x scripts/health_check.sh
+
+
+		./scripts/health_check.sh
+
+		'''
+
+	    }
+	}
+
 
     }
 
