@@ -79,9 +79,7 @@ pipeline {
 		chmod +x bin/enterprise-service
 
 
-		nohup ./bin/enterprise-service \
-		> service.log 2>&1 &
-
+		nohup ./bin/enterprise-service > service.log 2>&1 &
 
 		sleep 3
 
