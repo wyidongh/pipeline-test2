@@ -42,13 +42,24 @@ pipeline {
 	    steps {
 
 		sh '''
-		if [ -f /var/jenkins_home/devops/test-env/enterprise-service-1.0.0/scripts/stop.sh ]
-		then
-		    chmod +x scripts/stop.sh
-		    ./scripts/stop.sh
+		set +e
+
+		APP=/var/jenkins_home/devops/test-env/enterprise-service-1.0.0
+
+		if [ -f "$APP/scripts/stop.sh" ]; then
+
+		    echo "Stopping old service"
+
+		    chmod +x $APP/scripts/stop.sh
+
+		    $APP/scripts/stop.sh
+
+		else
+
+		    echo "No old service"
+
 		fi
 		'''
-
 	    }
 	}
 
@@ -84,22 +95,26 @@ pipeline {
 
 	stage('Start Test Service') {
 
-	    steps {
+	steps {
 
-		echo "Start enterprise service"
+	sh '''
 
-		sh '''
-		cd /var/jenkins_home/devops/test-env/enterprise-service-1.0.0
+	cd /var/jenkins_home/devops/test-env/enterprise-service-1.0.0
 
-		chmod +x bin/enterprise-service
+	chmod +x scripts/start.sh
 
-		nohup ./bin/enterprise-service > service.log 2>&1 &
+	scripts/start.sh
 
-		sleep 3
 
-		cat service.log
-		'''
-	    }
+	sleep 3
+
+
+	cat service.log
+
+	'''
+
+	}
+
 	}
 
 	stage('Health Check') {
