@@ -22,7 +22,8 @@ pipeline {
 
                 copyArtifacts(
                     projectName: 'pipeline_compile',
-                    selector: specific('7'),
+                    # selector: specific('7'),
+                    selector: lastSuccessful(),
                     filter: 'artifacts/*.tar.gz',
                     fingerprintArtifacts: true
                 )
