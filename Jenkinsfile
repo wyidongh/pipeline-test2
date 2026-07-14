@@ -64,30 +64,24 @@ pipeline {
 	    }
 	}
 
+
 	stage('Start Test Service') {
 
 	    steps {
 
 		echo "Start enterprise service"
 
-
 		sh '''
-
 		cd /var/jenkins_home/devops/test-env/enterprise-service-1.0.0
 
-
 		chmod +x bin/enterprise-service
-
 
 		nohup ./bin/enterprise-service > service.log 2>&1 &
 
 		sleep 3
 
-
 		cat service.log
-
 		'''
-
 	    }
 	}
 
