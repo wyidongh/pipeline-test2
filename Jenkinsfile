@@ -36,6 +36,23 @@ pipeline {
             }
         }
 
+
+	stage('Stop Old Service') {
+
+	    steps {
+
+		sh '''
+		if [ -f /var/jenkins_home/devops/test-env/enterprise-service-1.0.0/scripts/stop.sh ]
+		then
+		    chmod +x scripts/stop.sh
+		    ./scripts/stop.sh
+		fi
+		'''
+
+	    }
+	}
+
+
 	stage('Deploy Test Environment') {
 
 	    steps {
