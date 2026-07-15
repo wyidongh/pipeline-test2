@@ -39,28 +39,51 @@ pipeline {
 
 	stage('Stop Old Service') {
 
-	    steps {
+	steps {
 
-		sh '''
-		set +e
+	sh '''
 
-		APP=/var/jenkins_home/devops/test-env/enterprise-service-1.0.0
+	set +e
 
-		if [ -f "$APP/scripts/stop.sh" ]; then
 
-		    echo "Stopping old service"
+	APP=/var/jenkins_home/devops/test-env/enterprise-service-1.0.0
 
-		    chmod +x $APP/scripts/stop.sh
 
-		    $APP/scripts/stop.sh
+	if [ -f "$APP/scripts/stop.sh" ]; then
 
-		else
 
-		    echo "No old service"
+	    echo "Stopping old service"
 
-		fi
-		'''
-	    }
+
+	    chmod +x $APP/scripts/stop.sh
+
+
+	    $APP/scripts/stop.sh
+
+
+	    RESULT=$?
+
+
+	    if [ $RESULT -ne 0 ]; then
+
+		echo "Stop service failed but continue deployment"
+
+	    fi
+
+
+	else
+
+	    echo "No old service"
+
+	fi
+
+
+	exit 0
+
+	'''
+
+	}
+
 	}
 
 
